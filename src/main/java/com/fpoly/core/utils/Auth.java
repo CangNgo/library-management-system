@@ -16,4 +16,8 @@ public class Auth {
     public static boolean isManager() {
         return Auth.isLogin() && user.isVaiTro();
     }
+
+    public static String getManv() {
+        return user.getMaNV();
+    }
 }

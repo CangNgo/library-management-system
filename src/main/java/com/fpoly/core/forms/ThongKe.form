@@ -50,7 +50,7 @@
     <Container class="javax.swing.JPanel" name="jPanel6">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
-          <Color blue="cc" green="ff" red="ff" type="rgb"/>
+          <Color blue="ff" green="ff" red="ff" type="rgb"/>
         </Property>
       </Properties>
 
@@ -86,10 +86,10 @@
                           </Group>
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="103" alignment="0" groupAlignment="0" max="-2" attributes="0">
-                                  <Component id="tongsodg" alignment="0" max="32767" attributes="0"/>
-                                  <Component id="tongsopm" alignment="0" min="-2" pref="83" max="-2" attributes="0"/>
+                                  <Component id="txtdocgia" alignment="0" max="32767" attributes="0"/>
+                                  <Component id="txtsosachdamuon" alignment="0" min="-2" pref="83" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="tongsosach" alignment="0" min="-2" pref="83" max="-2" attributes="0"/>
+                              <Component id="txttongsosach" alignment="0" min="-2" pref="83" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                   </Group>
@@ -105,17 +105,17 @@
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel39" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="tongsosach" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txttongsosach" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel40" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="tongsodg" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtdocgia" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="jLabel41" alignment="3" min="-2" pref="23" max="-2" attributes="0"/>
-                      <Component id="tongsopm" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="txtsosachdamuon" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" pref="41" max="-2" attributes="0"/>
                   <Component id="jButton1" min="-2" max="-2" attributes="0"/>
@@ -157,17 +157,17 @@
             <Property name="text" type="java.lang.String" value="S&#x1ed1; s&#xe1;ch &#x111;ang cho m&#x1b0;&#x1ee3;n"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="tongsosach">
+        <Component class="javax.swing.JTextField" name="txttongsosach">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="tongsodg">
+        <Component class="javax.swing.JTextField" name="txtdocgia">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="tongsopm">
+        <Component class="javax.swing.JTextField" name="txtsosachdamuon">
           <Properties>
             <Property name="editable" type="boolean" value="false"/>
           </Properties>

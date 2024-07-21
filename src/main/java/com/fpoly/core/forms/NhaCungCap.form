@@ -99,7 +99,6 @@
                               <Component id="txtnhapmaphieunhap" min="-2" pref="129" max="-2" attributes="0"/>
                               <Component id="txtnhapngaynhap" min="-2" pref="133" max="-2" attributes="0"/>
                           </Group>
-                          <EmptySpace max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <Group type="103" groupAlignment="0" attributes="0">

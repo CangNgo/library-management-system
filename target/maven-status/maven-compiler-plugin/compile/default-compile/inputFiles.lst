@@ -2,9 +2,11 @@ D:\HocTap\CNTT\Java\library-management-system\src\main\java\com\fpoly\core\utils
 D:\HocTap\CNTT\Java\library-management-system\src\main\java\com\fpoly\core\forms\QuanLiMuonSach.java
 D:\HocTap\CNTT\Java\library-management-system\src\main\java\com\fpoly\core\forms\ThongKe.java
 D:\HocTap\CNTT\Java\library-management-system\src\main\java\com\fpoly\core\forms\DangNhapJDialog.java
+D:\HocTap\CNTT\Java\library-management-system\src\main\java\com\fpoly\core\forms\nhanvienJDialog.java
 D:\HocTap\CNTT\Java\library-management-system\src\main\java\com\fpoly\core\models\Sach.java
 D:\HocTap\CNTT\Java\library-management-system\src\main\java\com\fpoly\core\utils\Auth.java
 D:\HocTap\CNTT\Java\library-management-system\src\main\java\com\fpoly\core\forms\ChaoJDialog.java
+D:\HocTap\CNTT\Java\library-management-system\src\main\java\com\fpoly\core\forms\DoiMatKhauDialog.java
 D:\HocTap\CNTT\Java\library-management-system\src\main\java\com\fpoly\core\utils\XDate.java
 D:\HocTap\CNTT\Java\library-management-system\src\main\java\com\fpoly\core\models\NhanVien.java
 D:\HocTap\CNTT\Java\library-management-system\src\main\java\com\fpoly\core\models\LoaiSach.java
@@ -19,6 +21,7 @@ D:\HocTap\CNTT\Java\library-management-system\src\main\java\com\fpoly\core\forms
 D:\HocTap\CNTT\Java\library-management-system\src\main\java\com\fpoly\core\utils\JDBCHelper.java
 D:\HocTap\CNTT\Java\library-management-system\src\main\java\com\fpoly\core\models\ChiTietPhieuNhap.java
 D:\HocTap\CNTT\Java\library-management-system\src\main\java\com\fpoly\core\models\PhieuMuon.java
+D:\HocTap\CNTT\Java\library-management-system\src\main\java\com\fpoly\core\forms\NhaCungCap.java
 D:\HocTap\CNTT\Java\library-management-system\src\main\java\com\fpoly\core\connection\DatabaseConnection.java
 D:\HocTap\CNTT\Java\library-management-system\src\main\java\com\fpoly\core\models\ChiTietPhieuMuon.java
 D:\HocTap\CNTT\Java\library-management-system\src\main\java\com\fpoly\core\models\ChiTietPhieuTra.java

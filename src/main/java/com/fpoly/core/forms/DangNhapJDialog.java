@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package com.qltv.ui;
+package com.fpoly.core.forms;
 
 /**
  *
@@ -47,7 +47,6 @@ public class DangNhapJDialog extends javax.swing.JDialog {
             }
         });
 
-        btnDangNhap.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com.qltv.icon/Key.png"))); // NOI18N
         btnDangNhap.setText("Đăng nhập");
         btnDangNhap.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnDangNhap.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
@@ -59,7 +58,6 @@ public class DangNhapJDialog extends javax.swing.JDialog {
 
         jLabel3.setText("Mật khẩu");
 
-        btnExit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com.qltv.icon/Log out.png"))); // NOI18N
         btnExit.setText("Kết thúc");
         btnExit.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnExit.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);

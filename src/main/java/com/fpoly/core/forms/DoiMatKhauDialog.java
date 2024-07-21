@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package com.qltv.ui;
+package com.fpoly.core.forms;
 
 /**
  *
@@ -53,10 +53,8 @@ public class DoiMatKhauDialog extends javax.swing.JDialog {
 
         jLabel5.setText("nhập lại mật khẩu");
 
-        jButton1.setIcon(new javax.swing.ImageIcon("D:\\java1\\lap\\QLTV\\src\\main\\java\\com.qltv.icon\\Refresh.png")); // NOI18N
         jButton1.setText("Đồng ý");
 
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/com.qltv.icon/No.png"))); // NOI18N
         jButton2.setText("Hủy bỏ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -118,7 +116,7 @@ public class DoiMatKhauDialog extends javax.swing.JDialog {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton1)
                     .addComponent(jButton2))
-                .addContainerGap(11, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
