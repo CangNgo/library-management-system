@@ -16,6 +16,7 @@ public class DoiMatKhauDialog extends javax.swing.JDialog {
     public DoiMatKhauDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**

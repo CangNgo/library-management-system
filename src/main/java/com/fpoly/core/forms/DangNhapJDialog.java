@@ -4,18 +4,27 @@
  */
 package com.fpoly.core.forms;
 
+import com.fpoly.core.utils.Auth;
+import com.fpoly.core.DAO.DocGiaDAO;
+import com.fpoly.core.DAO.NhanVienDAO;
+import com.fpoly.core.models.DocGia;
+import com.fpoly.core.models.NhanVien;
+import com.fpoly.core.models.User;
+import com.fpoly.core.utils.MsgBox;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author WELCOME
  */
 public class DangNhapJDialog extends javax.swing.JDialog {
 
-    /**
-     * Creates new form DangNhapJDialog
-     */
     public DangNhapJDialog(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -27,6 +36,7 @@ public class DangNhapJDialog extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnGroupRole = new javax.swing.ButtonGroup();
         jPanel1 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         txtMaNV = new javax.swing.JTextField();
@@ -34,8 +44,15 @@ public class DangNhapJDialog extends javax.swing.JDialog {
         btnDangNhap = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
         btnExit = new javax.swing.JButton();
+        rdoNhanvien = new javax.swing.JRadioButton();
+        rdoDocgia = new javax.swing.JRadioButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -67,6 +84,12 @@ public class DangNhapJDialog extends javax.swing.JDialog {
             }
         });
 
+        btnGroupRole.add(rdoNhanvien);
+        rdoNhanvien.setText("Nhân viên");
+
+        btnGroupRole.add(rdoDocgia);
+        rdoDocgia.setText("Đọc giả");
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -75,21 +98,28 @@ public class DangNhapJDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnDangNhap)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnDangNhap)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnExit, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(rdoDocgia, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(18, 18, 18)
+                        .addComponent(rdoNhanvien, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(26, 26, 26))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtMatKhau, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addComponent(txtMaNV)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(jLabel2)
-                                .addGap(179, 179, 179)))
-                        .addContainerGap())))
+                            .addComponent(txtMaNV))
+                        .addContainerGap())
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel3)
+                            .addComponent(jLabel2))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -100,9 +130,13 @@ public class DangNhapJDialog extends javax.swing.JDialog {
                 .addComponent(txtMaNV, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(txtMatKhau, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 42, Short.MAX_VALUE)
+                .addGap(13, 13, 13)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(rdoNhanvien)
+                    .addComponent(rdoDocgia))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 6, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnDangNhap)
                     .addComponent(btnExit))
@@ -122,7 +156,7 @@ public class DangNhapJDialog extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 10, Short.MAX_VALUE))
+                .addGap(0, 4, Short.MAX_VALUE))
         );
 
         pack();
@@ -133,14 +167,28 @@ public class DangNhapJDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_txtMaNVActionPerformed
 
     private void btnDangNhapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDangNhapActionPerformed
-        // TODO add your handling code here:
-      
+        String username = txtMaNV.getText();
+        String password = (String) txtMatKhau.getText();
+        if (username.isEmpty() || password.isEmpty()) {
+            MsgBox.alert(this, "Nhập sai tài khoản hoặc mật khẩu");
+        } else {
+            try {
+                Login(username, password);
+            } catch (SQLException ex) {
+                Logger.getLogger(DangNhapJDialog.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }//GEN-LAST:event_btnDangNhapActionPerformed
 
     private void btnExitActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExitActionPerformed
         // TODO add your handling code here:
-       
+
     }//GEN-LAST:event_btnExitActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        // TODO add your handling code here:
+        rdoDocgia.setSelected(true);
+    }//GEN-LAST:event_formWindowOpened
 
     /**
      * @param args the command line arguments
@@ -187,10 +235,50 @@ public class DangNhapJDialog extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDangNhap;
     private javax.swing.JButton btnExit;
+    private javax.swing.ButtonGroup btnGroupRole;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JRadioButton rdoDocgia;
+    private javax.swing.JRadioButton rdoNhanvien;
     private javax.swing.JTextField txtMaNV;
     private javax.swing.JPasswordField txtMatKhau;
     // End of variables declaration//GEN-END:variables
+
+    public void Login(String username, String password) throws SQLException {
+        if (rdoDocgia.isSelected()) {
+            DocGiaDAO dgdao = new DocGiaDAO();
+            DocGia docgia = dgdao.loginDG(username);
+            if (docgia != null) {
+                if (docgia.getTaikhoan().equals(username) && docgia.getMatkhau().equals(password)) {
+                    User user = new User();
+                    MsgBox.alert(this, "Đăng nhập thành công");
+                    new QuanLiThuVienJFrame().setVisible(true);
+                    this.dispose();
+                } else {
+                    MsgBox.alert(this, password + "   " + docgia.getMatkhau());
+                    MsgBox.alert(this, "Mật khẩu hoặc mật khẩu không đúng");
+                }
+            } else {
+                MsgBox.alert(this, "Tài khoản hoặc mật khẩu sai");
+            }
+        } else {
+            NhanVienDAO nvdao = new NhanVienDAO();
+            NhanVien nhanvien = nvdao.loginNV(username);
+            if (nhanvien != null) {
+                if (nhanvien.getTaiKhoan().equals(username) && nhanvien.getMatKhau().equals(password)) {
+                    User user = new User(nhanvien.getTaiKhoan(), nhanvien.getMaNV(), nhanvien.getVaiTro().equalsIgnoreCase("Nhân viên"));
+                    Auth.user = user;
+                    MsgBox.alert(this, "Đăng nhập thành công");
+                    new QuanLiThuVienJFrame().setVisible(true);
+                    this.dispose();
+                } else {
+                    MsgBox.alert(this, password + "   " + nhanvien.getMatKhau());
+                    MsgBox.alert(this, "Mật khẩu hoặc mật khẩu không đúng");
+                }
+            } else {
+                MsgBox.alert(this, "Tên đăng nhập hoặc mật khẩu không đúng");
+            }
+        }
+    }
 }

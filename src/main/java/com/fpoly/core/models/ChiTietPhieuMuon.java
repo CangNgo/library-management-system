@@ -10,7 +10,8 @@ package com.fpoly.core.models;
  */
 public class ChiTietPhieuMuon {
    private String MaPM ; 
-    private String MaSach;
+   private String MaSach;
+     
 
     public ChiTietPhieuMuon(String MaPM, String MaSach) {
         this.MaPM = MaPM;

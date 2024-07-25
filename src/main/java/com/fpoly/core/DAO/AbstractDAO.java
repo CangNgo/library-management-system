@@ -14,5 +14,5 @@ public abstract class AbstractDAO<E, K> {
 
     abstract E selectById(K key);
 
-    abstract protected List<E> selectsql(String sql, Object... object) throws SQLException;
+    abstract protected List<E> selectsql(String sql, Object... args) throws SQLException;
 }

@@ -1,49 +1,91 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.fpoly.core.DAO;
 
 import com.fpoly.core.models.PhieuMuon;
-
+import com.fpoly.core.utils.JDBCHelper;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-/**
- *
- * @author acer
- */
-public class PhieuMuonDAO extends AbstractDAO<PhieuMuon,String> {
-
+public class PhieuMuonDAO extends AbstractDAO<PhieuMuon, String> {
 
     @Override
     public void insert(PhieuMuon entity) {
-
+        String sql = "INSERT INTO PhieuMuon (MaPM, NgayMuon, NgayHenTra, TinhTrang, ThanhToan, MaDG, MaNV) VALUES (?, ?, ?, ?, ?, ?, ?)";
+        JDBCHelper.update(sql, 
+                entity.getMaPM(), 
+                entity.getNgayMuon(), 
+                entity.getNgayHenTra(), 
+                entity.getTinhTrang(), 
+                entity.getThanhToan(),
+                entity.getMaDG(), 
+                entity.getMaNV());
     }
 
     @Override
     public void update(PhieuMuon entity) {
-
+        String sql = "UPDATE PhieuMuon SET NgayMuon=?, NgayHenTra=?, TinhTrang=?, ThanhToan=?, MaDG=?, MaNV=? WHERE MaPM=?";
+        JDBCHelper.update(sql, 
+                entity.getNgayMuon(), 
+                entity.getNgayHenTra(), 
+                entity.getTinhTrang(), 
+                entity.getThanhToan(),
+                entity.getMaDG(), 
+                entity.getMaNV(), 
+                entity.getMaPM());
     }
 
     @Override
     public void delete(String key) {
-
+        String sql = "DELETE FROM PhieuMuon WHERE MaPM=?";
+        JDBCHelper.update(sql, key);
     }
 
     @Override
     public List<PhieuMuon> selectAll() throws SQLException {
-        return List.of();
+        String sql = "SELECT * FROM PhieuMuon";
+        return selectsql(sql);
     }
 
     @Override
-    PhieuMuon selectById(String key) {
-        return null;
+    public PhieuMuon selectById(String key) {
+        String sql = "SELECT * FROM PhieuMuon WHERE MaPM=?";
+        List<PhieuMuon> list = null;
+        try {
+            list = selectsql(sql, key);
+        } catch (SQLException ex) {
+            Logger.getLogger(PhieuMuonDAO.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return list.size() > 0 ? list.get(0) : null;
     }
 
     @Override
-    protected List<PhieuMuon> selectsql(String sql, Object... object) throws SQLException {
-        return List.of();
+    protected List<PhieuMuon> selectsql(String sql, Object... args) throws SQLException {
+        List<PhieuMuon> list = new ArrayList<>();
+        try (ResultSet rs = JDBCHelper.query(sql, args)) {
+            while (rs.next()) {
+                PhieuMuon entity = new PhieuMuon();
+                entity.setMaPM(rs.getString("MaPM"));
+                entity.setNgayMuon(rs.getDate("NgayMuon"));
+                entity.setNgayHenTra(rs.getDate("NgayHenTra"));
+                entity.setTinhTrang(rs.getString("TinhTrang"));
+                entity.setThanhToan(rs.getString("ThanhToan"));
+                entity.setMaDG(rs.getString("MaDG"));
+                entity.setMaNV(rs.getString("MaNV"));
+                list.add(entity);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        }
+        return list;
     }
+    public List<PhieuMuon> searchByKeyword(String keyword) throws SQLException {
+    String sql = "SELECT * FROM PhieuMuon WHERE MaPM LIKE ? OR TinhTrang LIKE ? OR MaDG LIKE ? OR MaNV LIKE ?";
+    return selectsql(sql, "%" + keyword + "%", "%" + keyword + "%", "%" + keyword + "%", "%" + keyword + "%");
+}
+
 }

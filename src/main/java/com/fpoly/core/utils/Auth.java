@@ -1,9 +1,10 @@
 package com.fpoly.core.utils;
 
-import com.fpoly.core.models.NhanVien;
+import com.fpoly.core.models.User;
 
 public class Auth {
-    public static NhanVien user = null;
+
+    public static User user = null;
 
     public static void clear() {
         Auth.user = null;
@@ -14,10 +15,10 @@ public class Auth {
     }
 
     public static boolean isManager() {
-        return Auth.isLogin() && user.isVaiTro();
+        return Auth.isLogin() && user.getManager();
     }
 
     public static String getManv() {
-        return user.getMaNV();
+        return user.getUsername();
     }
 }

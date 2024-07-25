@@ -55,4 +55,6 @@ public class NhaCungCap {
     public void setDiaChi(String DiaChi) {
         this.DiaChi = DiaChi;
     }
+
+   
 }

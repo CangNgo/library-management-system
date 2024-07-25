@@ -3,19 +3,27 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 package com.fpoly.core.forms;
-
+import com.fpoly.core.DAO.DocGiaDAO;
+import java.util.List;
+import com.fpoly.core.models.DocGia;
+import com.fpoly.core.utils.MsgBox;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author WELCOME
  */
 public class QuanLiDocGia extends javax.swing.JDialog {
-
-    /**
-     * Creates new form QuanLiDocGia
-     */
+    DocGiaDAO dao = new DocGiaDAO();
+    int row =0;
     public QuanLiDocGia(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
+        fillToTable();
     }
 
     /**
@@ -34,7 +42,7 @@ public class QuanLiDocGia extends javax.swing.JDialog {
         btnhuy = new javax.swing.JButton();
         btnxoadg = new javax.swing.JButton();
         txtnhapsdt = new javax.swing.JTextField();
-        txtnhapemail = new javax.swing.JTextField();
+        txtmadg = new javax.swing.JTextField();
         txtnhapdiachi = new javax.swing.JTextField();
         txtnhaptendg = new javax.swing.JTextField();
         jLabel21 = new javax.swing.JLabel();
@@ -47,6 +55,8 @@ public class QuanLiDocGia extends javax.swing.JDialog {
         jLabel32 = new javax.swing.JLabel();
         txtseach = new javax.swing.JTextField();
         btbseach = new javax.swing.JButton();
+        txtngaysinh = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -97,7 +107,7 @@ public class QuanLiDocGia extends javax.swing.JDialog {
 
         jLabel22.setText("Địa chỉ");
 
-        jLabel23.setText("Email");
+        jLabel23.setText("Mã Độc Giả");
 
         jLabel30.setText("Số điện thoại");
 
@@ -106,14 +116,14 @@ public class QuanLiDocGia extends javax.swing.JDialog {
 
             },
             new String [] {
-                "Mã đọc giả", "Tên đọc giả", "Ngày sinh", "Số điện thoại", "email", "Địa chỉ"
+                "Mã đọc giả", "Tên đọc giả", "Ngày sinh", "Địa chỉ", "Số điện thoại"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false
+                false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -122,6 +132,11 @@ public class QuanLiDocGia extends javax.swing.JDialog {
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
+            }
+        });
+        banghienthidg.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                banghienthidgMouseClicked(evt);
             }
         });
         jScrollPane4.setViewportView(banghienthidg);
@@ -138,6 +153,8 @@ public class QuanLiDocGia extends javax.swing.JDialog {
             }
         });
 
+        jLabel1.setText("Ngày sinh");
+
         javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
@@ -147,37 +164,36 @@ public class QuanLiDocGia extends javax.swing.JDialog {
                 .addContainerGap()
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel21)
-                                            .addComponent(jLabel22))
-                                        .addGap(18, 18, 18))
-                                    .addGroup(jPanel4Layout.createSequentialGroup()
-                                        .addComponent(jLabel23)
-                                        .addGap(49, 49, 49)))
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(txtnhapemail)
-                                    .addComponent(txtnhaptendg, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(txtnhapdiachi, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addComponent(jLabel30)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(txtnhapsdt, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel30)
+                                    .addComponent(jLabel1))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtnhapsdt, javax.swing.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
+                                    .addComponent(txtngaysinh)))
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel23)
+                                    .addComponent(jLabel21)
+                                    .addComponent(jLabel22))
+                                .addGap(20, 20, 20)
+                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txtnhapdiachi, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtnhaptendg, javax.swing.GroupLayout.PREFERRED_SIZE, 182, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtmadg, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel4Layout.createSequentialGroup()
+                                .addGap(62, 62, 62)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(btnhuy, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addGroup(jPanel4Layout.createSequentialGroup()
                                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                                                .addGap(187, 187, 187)
                                                 .addComponent(jLabel31)
                                                 .addGap(70, 70, 70))
                                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                                                .addGap(62, 62, 62)
                                                 .addComponent(jLabel32)
                                                 .addGap(18, 18, 18)
                                                 .addComponent(txtseach, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -186,7 +202,7 @@ public class QuanLiDocGia extends javax.swing.JDialog {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(btnthemdg, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 454, Short.MAX_VALUE)
                                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(btnsuadg, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnluudg, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))))
@@ -198,28 +214,7 @@ public class QuanLiDocGia extends javax.swing.JDialog {
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel21)
-                            .addComponent(txtnhaptendg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGap(27, 27, 27)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel23)
-                                    .addComponent(txtnhapemail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel30)
-                                    .addComponent(txtnhapsdt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel22)
-                                    .addComponent(txtnhapdiachi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(35, 35, 35))))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addContainerGap()
                         .addComponent(jLabel31)
@@ -235,10 +230,32 @@ public class QuanLiDocGia extends javax.swing.JDialog {
                         .addGap(18, 18, 18)
                         .addComponent(btnsuadg)
                         .addGap(18, 18, 18)
-                        .addComponent(btnluudg)))
-                .addGap(18, 18, 18)
-                .addComponent(btnxoadg)
-                .addGap(18, 18, 18)
+                        .addComponent(btnluudg)
+                        .addGap(29, 29, 29)
+                        .addComponent(btnxoadg)
+                        .addGap(18, 18, 18))
+                    .addGroup(jPanel4Layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel21)
+                            .addComponent(txtnhaptendg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtmadg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel23))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel22)
+                            .addComponent(txtnhapdiachi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtnhapsdt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel30))
+                        .addGap(18, 18, 18)
+                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(txtngaysinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel1))
+                        .addGap(50, 50, 50)))
                 .addComponent(jScrollPane4, javax.swing.GroupLayout.DEFAULT_SIZE, 219, Short.MAX_VALUE))
         );
 
@@ -255,7 +272,7 @@ public class QuanLiDocGia extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 390, Short.MAX_VALUE)
+            .addGap(0, 469, Short.MAX_VALUE)
             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(layout.createSequentialGroup()
                     .addGap(0, 0, Short.MAX_VALUE)
@@ -267,23 +284,23 @@ public class QuanLiDocGia extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnsuadgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnsuadgActionPerformed
-      
+        update();
     }//GEN-LAST:event_btnsuadgActionPerformed
 
     private void btnluudgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnluudgActionPerformed
-       
+        update();
     }//GEN-LAST:event_btnluudgActionPerformed
 
     private void btnthemdgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnthemdgActionPerformed
-       
+        insert();
     }//GEN-LAST:event_btnthemdgActionPerformed
 
     private void btnhuyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnhuyActionPerformed
-      
+        cancel();
     }//GEN-LAST:event_btnhuyActionPerformed
 
     private void btnxoadgActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnxoadgActionPerformed
-       
+        delete();
     }//GEN-LAST:event_btnxoadgActionPerformed
 
     private void txtnhapdiachiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtnhapdiachiActionPerformed
@@ -291,8 +308,14 @@ public class QuanLiDocGia extends javax.swing.JDialog {
     }//GEN-LAST:event_txtnhapdiachiActionPerformed
 
     private void btbseachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btbseachActionPerformed
-       
+            search();
     }//GEN-LAST:event_btbseachActionPerformed
+
+    private void banghienthidgMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_banghienthidgMouseClicked
+        // TODO add your handling code here:
+        this.row = banghienthidg.rowAtPoint(evt.getPoint());
+         edit();
+    }//GEN-LAST:event_banghienthidgMouseClicked
 
     /**
      * @param args the command line arguments
@@ -344,6 +367,7 @@ public class QuanLiDocGia extends javax.swing.JDialog {
     private javax.swing.JButton btnsuadg;
     private javax.swing.JButton btnthemdg;
     private javax.swing.JButton btnxoadg;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel21;
     private javax.swing.JLabel jLabel22;
     private javax.swing.JLabel jLabel23;
@@ -352,10 +376,197 @@ public class QuanLiDocGia extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel32;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane4;
+    private javax.swing.JTextField txtmadg;
+    private javax.swing.JTextField txtngaysinh;
     private javax.swing.JTextField txtnhapdiachi;
-    private javax.swing.JTextField txtnhapemail;
     private javax.swing.JTextField txtnhapsdt;
     private javax.swing.JTextField txtnhaptendg;
     private javax.swing.JTextField txtseach;
     // End of variables declaration//GEN-END:variables
+    
+    
+    private List<DocGia> selectAll() {
+    try {
+        return dao.selectAll(); // Sử dụng DAO để lấy danh sách độc giả từ CSDL
+    } catch (Exception e) {
+        e.printStackTrace();
+        MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
+    }
+    return null;
+}
+
+// Điền dữ liệu vào bảng
+private void fillToTable() {
+    DefaultTableModel model = (DefaultTableModel) banghienthidg.getModel();
+    model.setRowCount(0); // Xóa hết các dòng trong bảng hiện tại
+
+    // Gọi phương thức selectAll để lấy danh sách độc giả từ CSDL
+    List<DocGia> list;
+    try {
+        list = dao.selectAll();
+        if (list != null) {
+            for (DocGia dg : list) {
+                Object[] row = {
+                    dg.getMaDG(),
+                    dg.getTenDG(),
+                    dg.getNgaySinh(),
+                    dg.getDiaChi(),
+                    dg.getSDT()
+                };
+                model.addRow(row); // Thêm một dòng vào bảng với dữ liệu của độc giả dg
+            }
+        }
+    } catch (SQLException ex) {
+        Logger.getLogger(QuanLiDocGia.class.getName()).log(Level.SEVERE, null, ex);
+    }
+}
+
+private void display(DocGia dg) {
+    txtmadg.setText(dg.getMaDG());
+    txtnhaptendg.setText(dg.getTenDG());
+    txtngaysinh.setText(dg.getNgaySinh().toString());
+    txtnhapdiachi.setText(dg.getDiaChi());
+    txtnhapsdt.setText(dg.getSDT());
+}
+
+void edit() {
+    String MaDG = (String) banghienthidg.getValueAt(this.row, 0);
+    DocGia dg = dao.selectById(MaDG);
+    if (dg != null) {
+        display(dg);
+    }
+}
+
+void insert() {
+    String maDG = txtmadg.getText();
+    String hoTen = txtnhaptendg.getText();
+    String ngaySinh = txtngaysinh.getText();
+    String diaChi = txtnhapdiachi.getText();
+    String sdt = txtnhapsdt.getText();
+
+    // Kiểm tra xem các trường có bị bỏ trống hay không
+    if (maDG.isEmpty() || hoTen.isEmpty() || ngaySinh.isEmpty() || diaChi.isEmpty() || sdt.isEmpty()) {
+        MsgBox.alert(this, "Vui lòng điền đầy đủ thông tin!");
+        return;
+    }
+
+    // Tạo đối tượng DocGia mới
+    DocGia dg = new DocGia();
+    dg.setMaDG(maDG);
+    dg.setTenDG(hoTen);
+    dg.setNgaySinh(java.sql.Date.valueOf(ngaySinh)); // Chuyển đổi String thành Date
+    dg.setDiaChi(diaChi);
+    dg.setSDT(sdt);
+
+    // Gọi phương thức insert từ lớp DocGiaDAO
+    try {
+        dao.insert(dg);
+        MsgBox.alert(this, "Thêm độc giả thành công!");
+        fillToTable(); // Cập nhật lại bảng
+    } catch (Exception e) {
+        e.printStackTrace();
+        MsgBox.alert(this, "Lỗi khi thêm độc giả!");
+    }
+}
+
+void update() {
+    String maDG = txtmadg.getText();
+    String hoTen = txtnhaptendg.getText();
+    String ngaySinh = txtngaysinh.getText();
+    String diaChi = txtnhapdiachi.getText();
+    String sdt = txtnhapsdt.getText();
+
+    // Kiểm tra xem các trường có bị bỏ trống hay không
+    if (maDG.isEmpty() || hoTen.isEmpty() || ngaySinh.isEmpty() || diaChi.isEmpty() || sdt.isEmpty()) {
+        MsgBox.alert(this, "Vui lòng điền đầy đủ thông tin!");
+        return;
+    }
+
+    // Tạo đối tượng DocGia mới với thông tin đã cập nhật
+    DocGia dg = new DocGia();
+    dg.setMaDG(maDG);
+    dg.setTenDG(hoTen);
+    dg.setNgaySinh(java.sql.Date.valueOf(ngaySinh)); // Chuyển đổi String thành Date
+    dg.setDiaChi(diaChi);
+    dg.setSDT(sdt);
+
+    // Gọi phương thức update từ lớp DocGiaDAO
+    try {
+        dao.update(dg);
+        MsgBox.alert(this, "Sửa thông tin độc giả thành công!");
+        fillToTable(); // Cập nhật lại bảng
+    } catch (Exception e) {
+        e.printStackTrace();
+        MsgBox.alert(this, "Lỗi khi sửa thông tin độc giả!");
+    }
+}
+
+void delete() {
+    String maDG = txtmadg.getText();
+    // Kiểm tra xem mã độc giả có bị bỏ trống hay không
+    if (maDG.isEmpty()) {
+        MsgBox.alert(this, "Vui lòng nhập mã độc giả để xóa!");
+        return;
+    }
+    // Xác nhận lại việc xóa
+    int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa độc giả này?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+    if (confirm != JOptionPane.YES_OPTION) {
+        return;
+    }
+
+    // Gọi phương thức delete từ lớp DocGiaDAO
+    try {
+        dao.delete(maDG);
+        MsgBox.alert(this, "Xóa độc giả thành công!");
+        fillToTable(); // Cập nhật lại bảng
+    } catch (Exception e) {
+        e.printStackTrace();
+        MsgBox.alert(this, "Lỗi khi xóa độc giả!");
+    }
+}
+
+void cancel() {
+    txtmadg.setText("");
+    txtnhaptendg.setText("");
+    txtngaysinh.setText("");
+    txtnhapdiachi.setText("");
+    txtnhapsdt.setText("");
+}
+
+void search() {
+    // Lấy từ khóa tìm kiếm từ trường nhập liệu
+    String keyword = txtseach.getText();
+
+    // Kiểm tra xem từ khóa có bị bỏ trống hay không
+    if (keyword.isEmpty()) {
+        MsgBox.alert(this, "Vui lòng nhập từ khóa để tìm kiếm!");
+        return;
+    }
+
+    // Gọi phương thức tìm kiếm từ lớp DocGiaDAO
+    try {
+        List<DocGia> list = dao.searchByKeyword(keyword);
+        fillToTableSearch(list); // Cập nhật lại bảng với danh sách kết quả tìm kiếm
+    } catch (Exception e) {
+        e.printStackTrace();
+        MsgBox.alert(this, "Lỗi khi tìm kiếm độc giả!");
+    }
+}
+
+private void fillToTableSearch(List<DocGia> list) {
+    DefaultTableModel model = (DefaultTableModel) banghienthidg.getModel();
+    model.setRowCount(0);
+    for (DocGia dg : list) {
+        Object[] row = {
+            dg.getMaDG(),
+            dg.getTenDG(),
+            dg.getNgaySinh(),
+            dg.getDiaChi(),
+            dg.getSDT()
+        };
+        model.addRow(row);
+    }
+}
+
+
 }

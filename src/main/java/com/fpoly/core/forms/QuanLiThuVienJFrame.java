@@ -15,7 +15,7 @@ public class QuanLiThuVienJFrame extends javax.swing.JFrame {
      */
     public QuanLiThuVienJFrame() {
         initComponents();
-        
+        setLocationRelativeTo(null);
     }
 
     /**
@@ -27,10 +27,10 @@ public class QuanLiThuVienJFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton4 = new javax.swing.JButton();
+        btnSach = new javax.swing.JButton();
+        btnDocgia = new javax.swing.JButton();
+        btnMuonSach = new javax.swing.JButton();
+        btnNhacungcap = new javax.swing.JButton();
         menuBar = new javax.swing.JMenuBar();
         mnuHeThong = new javax.swing.JMenu();
         jSeparator2 = new javax.swing.JPopupMenu.Separator();
@@ -48,23 +48,33 @@ public class QuanLiThuVienJFrame extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("Sách");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnSach.setText("Sách");
+        btnSach.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnSachActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Đọc giả");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnDocgia.setText("Đọc giả");
+        btnDocgia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnDocgiaActionPerformed(evt);
             }
         });
 
-        jButton3.setText("Mượn sách");
+        btnMuonSach.setText("Mượn sách");
+        btnMuonSach.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnMuonSachActionPerformed(evt);
+            }
+        });
 
-        jButton4.setText("NCC");
+        btnNhacungcap.setText("NCC");
+        btnNhacungcap.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNhacungcapActionPerformed(evt);
+            }
+        });
 
         mnuHeThong.setText("Hệ thống");
         mnuHeThong.add(jSeparator2);
@@ -143,24 +153,24 @@ public class QuanLiThuVienJFrame extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
+                .addComponent(btnSach)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
+                .addComponent(btnDocgia)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton4)
-                .addContainerGap(429, Short.MAX_VALUE))
+                .addComponent(btnMuonSach, javax.swing.GroupLayout.PREFERRED_SIZE, 118, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btnNhacungcap)
+                .addContainerGap(405, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton4, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnNhacungcap, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 42, Short.MAX_VALUE)
+                    .addComponent(btnDocgia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnSach, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnMuonSach, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(306, Short.MAX_VALUE))
         );
 
@@ -174,37 +184,48 @@ public class QuanLiThuVienJFrame extends javax.swing.JFrame {
 
     private void mniDoiMatKhauActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniDoiMatKhauActionPerformed
         // TODO add your handling code here:
-      
+      new DoiMatKhauDialog(this, true).setVisible(true);
     }//GEN-LAST:event_mniDoiMatKhauActionPerformed
 
     private void mniKetThucActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniKetThucActionPerformed
         // TODO add your handling code here:
-      
+      System.exit(0);
     }//GEN-LAST:event_mniKetThucActionPerformed
 
     private void mniQuanLiSachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniQuanLiSachActionPerformed
         // TODO add your handling code here:
-        
+        new QuanLiSach(this, true).setVisible(true);
     }//GEN-LAST:event_mniQuanLiSachActionPerformed
 
     private void mniQuanLiDocGiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniQuanLiDocGiaActionPerformed
         // TODO add your handling code here:
-        
+        new QuanLiDocGia(this, true).setVisible(true);
     }//GEN-LAST:event_mniQuanLiDocGiaActionPerformed
 
     private void mniQuanLiMuonSachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mniQuanLiMuonSachActionPerformed
         // TODO add your handling code here:
-   
+   new QuanLiMuonSach(this, true).setVisible(true);
     }//GEN-LAST:event_mniQuanLiMuonSachActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnSachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSachActionPerformed
         // TODO add your handling code here:
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
+        new QuanLiSach(this, true).setVisible(true);
+    }//GEN-LAST:event_btnSachActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnDocgiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDocgiaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+        new QuanLiDocGia(this, true).setVisible(true);
+    }//GEN-LAST:event_btnDocgiaActionPerformed
+
+    private void btnMuonSachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMuonSachActionPerformed
+        // TODO add your handling code here:
+        new QuanLiMuonSach(this, true).setVisible(true);
+    }//GEN-LAST:event_btnMuonSachActionPerformed
+
+    private void btnNhacungcapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNhacungcapActionPerformed
+        // TODO add your handling code here:
+        new NhaCungCapJDialog(this, true).setVisible(true);
+    }//GEN-LAST:event_btnNhacungcapActionPerformed
 
     /**
      * @param args the command line arguments
@@ -242,10 +263,10 @@ public class QuanLiThuVienJFrame extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
+    private javax.swing.JButton btnDocgia;
+    private javax.swing.JButton btnMuonSach;
+    private javax.swing.JButton btnNhacungcap;
+    private javax.swing.JButton btnSach;
     private javax.swing.JPopupMenu.Separator jSeparator1;
     private javax.swing.JPopupMenu.Separator jSeparator2;
     private javax.swing.JPopupMenu.Separator jSeparator3;

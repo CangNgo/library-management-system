@@ -18,6 +18,15 @@ public class DocGia {
     private String SDT;
     private String Email;
     private String DiaChi;
+    private String taikhoan;
+    private String matkhau;
+
+    public DocGia(String MaDG, String taikhoan, String matkhau) {
+        this.MaDG = MaDG;
+        this.taikhoan = taikhoan;
+        this.matkhau = matkhau;
+    }
+    
 
     public DocGia(String MaDG, String TenDG, Date NgaySinh, String SDT, String Email, String DiaChi) {
         this.MaDG = MaDG;
@@ -26,6 +35,33 @@ public class DocGia {
         this.SDT = SDT;
         this.Email = Email;
         this.DiaChi = DiaChi;
+    }
+
+    public DocGia(String MaDG, String TenDG, Date NgaySinh, String SDT, String Email, String DiaChi, String taikhoan, String matkhau) {
+        this.MaDG = MaDG;
+        this.TenDG = TenDG;
+        this.NgaySinh = NgaySinh;
+        this.SDT = SDT;
+        this.Email = Email;
+        this.DiaChi = DiaChi;
+        this.taikhoan = taikhoan;
+        this.matkhau = matkhau;
+    }
+
+    public String getTaikhoan() {
+        return taikhoan;
+    }
+
+    public void setTaikhoan(String taikhoan) {
+        this.taikhoan = taikhoan;
+    }
+
+    public String getMatkhau() {
+        return matkhau;
+    }
+
+    public void setMatkhau(String matkhau) {
+        this.matkhau = matkhau;
     }
 
     public DocGia() {

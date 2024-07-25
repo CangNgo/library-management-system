@@ -16,6 +16,7 @@ public class ThongKe extends javax.swing.JDialog {
     public ThongKe(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        setLocationRelativeTo(null);
     }
 
     /**

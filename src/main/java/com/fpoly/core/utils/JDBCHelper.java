@@ -13,9 +13,9 @@ import java.util.Arrays;
 public class JDBCHelper {
 
     static String driver = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    static String dburl = "jdbc:sqlserver://localhost:1433;database=DUANMAU;trustServerCertificate=true;encrypt=true;";
+    static String dburl = "jdbc:sqlserver://localhost:1433;database=QUANLYTHUVIEN;trustServerCertificate=true;encrypt=true;";
     static String user = "sa";
-    static String pass = "songlong";
+    static String pass = "123123";
 
     static {
         try {
