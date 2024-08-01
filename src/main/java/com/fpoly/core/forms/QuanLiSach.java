@@ -3,15 +3,31 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 package com.fpoly.core.forms;
+
 import com.fpoly.core.DAO.SachDAO;
 import com.fpoly.core.utils.MsgBox;
 import com.fpoly.core.models.Sach;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Path;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.sound.midi.Patch;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.FillPatternType;
+import org.apache.poi.ss.usermodel.IndexedColors;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFFont;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
 /**
  *
  * @author WELCOME
@@ -19,8 +35,8 @@ import javax.swing.table.DefaultTableModel;
 public class QuanLiSach extends javax.swing.JDialog {
 
     SachDAO dao = new SachDAO();
-    int row =0;
-    
+    int row = 0;
+
     public QuanLiSach(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
@@ -70,6 +86,8 @@ public class QuanLiSach extends javax.swing.JDialog {
         txtNamXB = new javax.swing.JTextField();
         txtNhaXB = new javax.swing.JTextField();
         txtGiaSach = new javax.swing.JTextField();
+        btnExport = new javax.swing.JButton();
+        txtPath = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -197,6 +215,13 @@ public class QuanLiSach extends javax.swing.JDialog {
 
         txtLanTaiBan.setText("jTextField2");
 
+        btnExport.setText("Export Excel");
+        btnExport.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnExportActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
@@ -211,63 +236,69 @@ public class QuanLiSach extends javax.swing.JDialog {
                         .addComponent(jLabel28)
                         .addGap(375, 375, 375))
                     .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel3Layout.createSequentialGroup()
+                                    .addGap(1, 1, 1)
+                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                    .addComponent(jLabel17)
+                                                    .addComponent(jLabel16))
+                                                .addGap(22, 22, 22)
+                                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                                    .addComponent(txtTenSach)
+                                                    .addComponent(txtLoaiSach, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                    .addComponent(jLabel19)
+                                                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
+                                                        .addGap(1, 1, 1)
+                                                        .addComponent(jLabel18)))
+                                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                                        .addGap(18, 18, 18)
+                                                        .addComponent(txtSoLuong, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                                    .addGroup(jPanel3Layout.createSequentialGroup()
+                                                        .addGap(20, 20, 20)
+                                                        .addComponent(txtTacGia, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                        .addGroup(jPanel3Layout.createSequentialGroup()
+                                            .addGap(68, 68, 68)
+                                            .addComponent(txtMaSach, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
+                                            .addComponent(jLabel20)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                                        .addGroup(jPanel3Layout.createSequentialGroup()
+                                            .addComponent(jLabel2)
+                                            .addGap(16, 16, 16)))
+                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addComponent(txtTenTG, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(txtLanTaiBan, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(8, 8, 8)
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(txtNamXB, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(44, 44, 44)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addComponent(jLabel29)
+                                .addGap(64, 64, 64)
+                                .addComponent(txtseach, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addGap(1, 1, 1)
-                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                                        .addComponent(jLabel17)
-                                                        .addComponent(jLabel16))
-                                                    .addGap(22, 22, 22)
-                                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                        .addComponent(txtTenSach)
-                                                        .addComponent(txtLoaiSach, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                                .addGroup(jPanel3Layout.createSequentialGroup()
-                                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                                        .addComponent(jLabel19)
-                                                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                                                            .addGap(1, 1, 1)
-                                                            .addComponent(jLabel18)))
-                                                    .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addGroup(jPanel3Layout.createSequentialGroup()
-                                                            .addGap(18, 18, 18)
-                                                            .addComponent(txtSoLuong, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                        .addGroup(jPanel3Layout.createSequentialGroup()
-                                                            .addGap(20, 20, 20)
-                                                            .addComponent(txtTacGia, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addGap(68, 68, 68)
-                                                .addComponent(txtMaSach, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                                                .addComponent(jLabel20)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                                            .addGroup(jPanel3Layout.createSequentialGroup()
-                                                .addComponent(jLabel2)
-                                                .addGap(16, 16, 16)))
-                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(txtTenTG, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtLanTaiBan, javax.swing.GroupLayout.PREFERRED_SIZE, 172, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                                .addGap(44, 44, 44)
-                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addComponent(jLabel29)
-                                        .addGap(64, 64, 64)
-                                        .addComponent(txtseach, javax.swing.GroupLayout.PREFERRED_SIZE, 235, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addGroup(jPanel3Layout.createSequentialGroup()
-                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGap(43, 43, 43)
-                                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                            .addComponent(txtNhaXB)
-                                            .addComponent(txtGiaSach, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE))))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 53, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(43, 43, 43)
+                                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtNhaXB)
+                                    .addComponent(txtGiaSach, javax.swing.GroupLayout.DEFAULT_SIZE, 164, Short.MAX_VALUE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(jPanel3Layout.createSequentialGroup()
                                         .addComponent(btnseach)
@@ -280,13 +311,14 @@ public class QuanLiSach extends javax.swing.JDialog {
                                             .addComponent(btnthemsach2, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(btnluusach2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(btnxoa2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(btnnutsuasach2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                                .addGap(8, 8, 8)
-                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(txtNamXB, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addContainerGap(47, Short.MAX_VALUE))))
+                                            .addComponent(btnnutsuasach2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 74, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                                .addContainerGap(47, Short.MAX_VALUE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(12, 12, 12)
+                                .addComponent(txtPath, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(btnExport)
+                                .addGap(38, 38, 38))))))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -313,7 +345,17 @@ public class QuanLiSach extends javax.swing.JDialog {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(16, 16, 16)
-                        .addComponent(lblHinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(lblHinh, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(14, 14, 14)
+                                .addComponent(jLabel3))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addGap(18, 18, 18)
+                                .addComponent(txtNamXB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel3Layout.createSequentialGroup()
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtPath, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel3Layout.createSequentialGroup()
@@ -354,18 +396,12 @@ public class QuanLiSach extends javax.swing.JDialog {
                                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(txtGiaSach, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))))
                         .addGap(18, 18, 18)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(txtLanTaiBan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel3Layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addComponent(jLabel3)
-                        .addGap(28, 28, 28))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtNamXB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)))
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(jLabel2)
+                                .addComponent(txtLanTaiBan, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnExport))))
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -398,7 +434,7 @@ public class QuanLiSach extends javax.swing.JDialog {
     }//GEN-LAST:event_txtLoaiSachActionPerformed
 
     private void btnthemsach2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnthemsach2ActionPerformed
-    insert();
+        insert();
     }//GEN-LAST:event_btnthemsach2ActionPerformed
 
     private void btnnutsuasach2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnnutsuasach2ActionPerformed
@@ -418,7 +454,7 @@ public class QuanLiSach extends javax.swing.JDialog {
     }//GEN-LAST:event_btnxoa2ActionPerformed
 
     private void btnseachActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnseachActionPerformed
-            search();
+        search();
     }//GEN-LAST:event_btnseachActionPerformed
 
     private void banghienthisach2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_banghienthisach2MouseClicked
@@ -426,6 +462,18 @@ public class QuanLiSach extends javax.swing.JDialog {
         this.row = banghienthisach2.rowAtPoint(evt.getPoint());
         edit();
     }//GEN-LAST:event_banghienthisach2MouseClicked
+
+    private void btnExportActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportActionPerformed
+        // TODO add your handling code here:
+        String filePath = "SachFiles/sachTemp.xlsx";
+        File directory = new File("SachFiles");
+        if (!directory.exists()) {
+            directory.mkdirs();
+        }
+        exportSachToExcel(filePath);
+        
+        txtPath.setText("sachTemp.xlsx");
+    }//GEN-LAST:event_btnExportActionPerformed
 
     /**
      * @param args the command line arguments
@@ -471,6 +519,7 @@ public class QuanLiSach extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable banghienthisach2;
+    private javax.swing.JButton btnExport;
     private javax.swing.JButton btnhuy3;
     private javax.swing.JButton btnluusach2;
     private javax.swing.JButton btnnutsuasach2;
@@ -498,6 +547,7 @@ public class QuanLiSach extends javax.swing.JDialog {
     private javax.swing.JTextField txtMaSach;
     private javax.swing.JTextField txtNamXB;
     private javax.swing.JTextField txtNhaXB;
+    private javax.swing.JTextField txtPath;
     private javax.swing.JTextField txtSoLuong;
     private javax.swing.JTextField txtTacGia;
     private javax.swing.JTextField txtTenSach;
@@ -506,14 +556,15 @@ public class QuanLiSach extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private List<Sach> selectAll() {
-    try {
-        return dao.selectAll(); // Sử dụng DAO để lấy danh sách từ CSDL
-    } catch (Exception e) {
-        e.printStackTrace();
-        MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
+        try {
+            return dao.selectAll(); // Sử dụng DAO để lấy danh sách từ CSDL
+        } catch (Exception e) {
+            e.printStackTrace();
+            MsgBox.alert(this, "Lỗi truy vấn dữ liệu!");
+        }
+        return null;
     }
-    return null;
-}
+
     private void fillToTable() {
         DefaultTableModel model = (DefaultTableModel) banghienthisach2.getModel();
         model.setRowCount(0); // Xóa hết các dòng trong bảng hiện tại
@@ -543,189 +594,278 @@ public class QuanLiSach extends javax.swing.JDialog {
         }
     }
 
-    
-private void display(Sach sach) {
-    txtMaSach.setText(sach.getMaSach());
-    txtTenSach.setText(sach.getTenSach());
-    txtLanTaiBan.setText(sach.getLanTaiBan());
-    txtNamXB.setText(String.valueOf(sach.getNamXB())); // Chuyển đổi int thành String
-    txtTenTG.setText(sach.getTenTG());
-    txtNhaXB.setText(sach.getNhaXB());
-    txtSoLuong.setText(String.valueOf(sach.getSoLuong())); // Chuyển đổi int thành String
-    lblHinh.setToolTipText(sach.getHinh());
-    txtGiaSach.setText(String.valueOf(sach.getGiaSach())); // Chuyển đổi double thành String
-    txtLoaiSach.setText(sach.getLoaiSach());
-}
-
+    private void display(Sach sach) {
+        txtMaSach.setText(sach.getMaSach());
+        txtTenSach.setText(sach.getTenSach());
+        txtLanTaiBan.setText(sach.getLanTaiBan());
+        txtNamXB.setText(String.valueOf(sach.getNamXB())); // Chuyển đổi int thành String
+        txtTenTG.setText(sach.getTenTG());
+        txtNhaXB.setText(sach.getNhaXB());
+        txtSoLuong.setText(String.valueOf(sach.getSoLuong())); // Chuyển đổi int thành String
+        lblHinh.setToolTipText(sach.getHinh());
+        txtGiaSach.setText(String.valueOf(sach.getGiaSach())); // Chuyển đổi double thành String
+        txtLoaiSach.setText(sach.getLoaiSach());
+    }
 
     void edit() {
-    String maSach = (String) banghienthisach2.getValueAt(this.row, 0);
-    Sach sach = dao.selectById(maSach);
-    if (sach != null) {
-        display(sach);
+        String maSach = (String) banghienthisach2.getValueAt(this.row, 0);
+        Sach sach = dao.selectById(maSach);
+        if (sach != null) {
+            display(sach);
+        }
+
     }
-    
-}
-    
-    void reset (){
-            txtMaSach.setText("");
-            txtTenSach.setText("");
-            txtLanTaiBan.setText("");
-            txtNamXB.setText(""); // Chuyển đổi int thành String
-            txtTenTG.setText("");
-            txtNhaXB.setText("");
-            txtSoLuong.setText(""); // Chuyển đổi int thành String
-            txtGiaSach.setText(""); // Chuyển đổi double thành String
-            txtLoaiSach.setText("");
+
+    void reset() {
+        txtMaSach.setText("");
+        txtTenSach.setText("");
+        txtLanTaiBan.setText("");
+        txtNamXB.setText(""); // Chuyển đổi int thành String
+        txtTenTG.setText("");
+        txtNhaXB.setText("");
+        txtSoLuong.setText(""); // Chuyển đổi int thành String
+        txtGiaSach.setText(""); // Chuyển đổi double thành String
+        txtLoaiSach.setText("");
     }
+
     private void insert() {
-    String maSach = txtMaSach.getText();
-    String tenSach = txtTenSach.getText();
-    String lanTaiBan = txtLanTaiBan.getText();
-    int namXB = Integer.parseInt(txtNamXB.getText()); // Chuyển đổi String thành int
-    String tenTG = txtTenTG.getText();
-    String nhaXB = txtNhaXB.getText();
-    int soLuong = Integer.parseInt(txtSoLuong.getText()); // Chuyển đổi String thành int
-    String hinh = lblHinh.getUIClassID();
-    double giaSach = Double.parseDouble(txtGiaSach.getText()); // Chuyển đổi String thành double
-    String loaiSach = txtLoaiSach.getText();
+        String maSach = txtMaSach.getText();
+        String tenSach = txtTenSach.getText();
+        String lanTaiBan = txtLanTaiBan.getText();
+        int namXB = Integer.parseInt(txtNamXB.getText()); // Chuyển đổi String thành int
+        String tenTG = txtTenTG.getText();
+        String nhaXB = txtNhaXB.getText();
+        int soLuong = Integer.parseInt(txtSoLuong.getText()); // Chuyển đổi String thành int
+        String hinh = lblHinh.getUIClassID();
+        double giaSach = Double.parseDouble(txtGiaSach.getText()); // Chuyển đổi String thành double
+        String loaiSach = txtLoaiSach.getText();
 
-    // Kiểm tra xem các trường có bị bỏ trống hay không
-    if (maSach.isEmpty() || tenSach.isEmpty() || lanTaiBan.isEmpty() || tenTG.isEmpty() || nhaXB.isEmpty() || hinh.isEmpty() || loaiSach.isEmpty()) {
-        MsgBox.alert(this, "Vui lòng điền đầy đủ thông tin!");
-        return;
+        // Kiểm tra xem các trường có bị bỏ trống hay không
+        if (maSach.isEmpty() || tenSach.isEmpty() || lanTaiBan.isEmpty() || tenTG.isEmpty() || nhaXB.isEmpty() || hinh.isEmpty() || loaiSach.isEmpty()) {
+            MsgBox.alert(this, "Vui lòng điền đầy đủ thông tin!");
+            return;
+        }
+
+        // Tạo đối tượng Sach mới
+        Sach sach = new Sach();
+        sach.setMaSach(maSach);
+        sach.setTenSach(tenSach);
+        sach.setLanTaiBan(lanTaiBan);
+        sach.setNamXB(namXB);
+        sach.setTenTG(tenTG);
+        sach.setNhaXB(nhaXB);
+        sach.setSoLuong(soLuong);
+        sach.setHinh(hinh);
+        sach.setGiaSach(giaSach);
+        sach.setLoaiSach(loaiSach);
+
+        // Gọi phương thức insert từ lớp SachDAO
+        try {
+            dao.insert(sach);
+            MsgBox.alert(this, "Thêm sách thành công!");
+            fillToTable(); // Cập nhật lại bảng
+        } catch (Exception e) {
+            e.printStackTrace();
+            MsgBox.alert(this, "Lỗi khi thêm sách!");
+        }
     }
 
-    // Tạo đối tượng Sach mới
-    Sach sach = new Sach();
-    sach.setMaSach(maSach);
-    sach.setTenSach(tenSach);
-    sach.setLanTaiBan(lanTaiBan);
-    sach.setNamXB(namXB);
-    sach.setTenTG(tenTG);
-    sach.setNhaXB(nhaXB);
-    sach.setSoLuong(soLuong);
-    sach.setHinh(hinh);
-    sach.setGiaSach(giaSach);
-    sach.setLoaiSach(loaiSach);
-
-    // Gọi phương thức insert từ lớp SachDAO
-    try {
-        dao.insert(sach);
-        MsgBox.alert(this, "Thêm sách thành công!");
-        fillToTable(); // Cập nhật lại bảng
-    } catch (Exception e) {
-        e.printStackTrace();
-        MsgBox.alert(this, "Lỗi khi thêm sách!");
-    }
-}
-    
     private void update() {
-    String maSach = txtMaSach.getText();
-    String tenSach = txtTenSach.getText();
-    String lanTaiBan = txtLanTaiBan.getText();
-    int namXB = Integer.parseInt(txtNamXB.getText()); // Chuyển đổi String thành int
-    String tenTG = txtTenTG.getText();
-    String nhaXB = txtNhaXB.getText();
-    int soLuong = Integer.parseInt(txtSoLuong.getText()); // Chuyển đổi String thành int
-    String hinh = lblHinh.getUIClassID();
-    double giaSach = Double.parseDouble(txtGiaSach.getText()); // Chuyển đổi String thành double
-    String loaiSach = txtLoaiSach.getText();
+        String maSach = txtMaSach.getText();
+        String tenSach = txtTenSach.getText();
+        String lanTaiBan = txtLanTaiBan.getText();
+        int namXB = Integer.parseInt(txtNamXB.getText()); // Chuyển đổi String thành int
+        String tenTG = txtTenTG.getText();
+        String nhaXB = txtNhaXB.getText();
+        int soLuong = Integer.parseInt(txtSoLuong.getText()); // Chuyển đổi String thành int
+        String hinh = lblHinh.getUIClassID();
+        double giaSach = Double.parseDouble(txtGiaSach.getText()); // Chuyển đổi String thành double
+        String loaiSach = txtLoaiSach.getText();
 
-    // Kiểm tra xem các trường có bị bỏ trống hay không
-    if (maSach.isEmpty() || tenSach.isEmpty() || lanTaiBan.isEmpty() || tenTG.isEmpty() || nhaXB.isEmpty() || hinh.isEmpty() || loaiSach.isEmpty()) {
-        MsgBox.alert(this, "Vui lòng điền đầy đủ thông tin!");
-        return;
+        // Kiểm tra xem các trường có bị bỏ trống hay không
+        if (maSach.isEmpty() || tenSach.isEmpty() || lanTaiBan.isEmpty() || tenTG.isEmpty() || nhaXB.isEmpty() || hinh.isEmpty() || loaiSach.isEmpty()) {
+            MsgBox.alert(this, "Vui lòng điền đầy đủ thông tin!");
+            return;
+        }
+
+        // Tạo đối tượng Sach mới với thông tin đã cập nhật
+        Sach sach = new Sach();
+        sach.setMaSach(maSach);
+        sach.setTenSach(tenSach);
+        sach.setLanTaiBan(lanTaiBan);
+        sach.setNamXB(namXB);
+        sach.setTenTG(tenTG);
+        sach.setNhaXB(nhaXB);
+        sach.setSoLuong(soLuong);
+        sach.setHinh(hinh);
+        sach.setGiaSach(giaSach);
+        sach.setLoaiSach(loaiSach);
+
+        // Gọi phương thức update từ lớp SachDAO
+        try {
+            dao.update(sach);
+            MsgBox.alert(this, "Sửa thông tin sách thành công!");
+            fillToTable(); // Cập nhật lại bảng
+        } catch (Exception e) {
+            e.printStackTrace();
+            MsgBox.alert(this, "Lỗi khi sửa thông tin sách!");
+        }
     }
 
-    // Tạo đối tượng Sach mới với thông tin đã cập nhật
-    Sach sach = new Sach();
-    sach.setMaSach(maSach);
-    sach.setTenSach(tenSach);
-    sach.setLanTaiBan(lanTaiBan);
-    sach.setNamXB(namXB);
-    sach.setTenTG(tenTG);
-    sach.setNhaXB(nhaXB);
-    sach.setSoLuong(soLuong);
-    sach.setHinh(hinh);
-    sach.setGiaSach(giaSach);
-    sach.setLoaiSach(loaiSach);
-
-    // Gọi phương thức update từ lớp SachDAO
-    try {
-        dao.update(sach);
-        MsgBox.alert(this, "Sửa thông tin sách thành công!");
-        fillToTable(); // Cập nhật lại bảng
-    } catch (Exception e) {
-        e.printStackTrace();
-        MsgBox.alert(this, "Lỗi khi sửa thông tin sách!");
-    }
-}
-    
     private void delete() {
-    String maSach = txtMaSach.getText();
-    // Kiểm tra xem mã sách có bị bỏ trống hay không
-    if (maSach.isEmpty()) {
-        MsgBox.alert(this, "Vui lòng nhập mã sách để xóa!");
-        return;
-    }
-    
-    // Xác nhận lại việc xóa
-    int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa sách này?", "Xác nhận", JOptionPane.YES_NO_OPTION);
-    if (confirm != JOptionPane.YES_OPTION) {
-        return;
+        String maSach = txtMaSach.getText();
+        // Kiểm tra xem mã sách có bị bỏ trống hay không
+        if (maSach.isEmpty()) {
+            MsgBox.alert(this, "Vui lòng nhập mã sách để xóa!");
+            return;
+        }
+
+        // Xác nhận lại việc xóa
+        int confirm = JOptionPane.showConfirmDialog(this, "Bạn có chắc chắn muốn xóa sách này?", "Xác nhận", JOptionPane.YES_NO_OPTION);
+        if (confirm != JOptionPane.YES_OPTION) {
+            return;
+        }
+
+        // Gọi phương thức delete từ lớp SachDAO
+        try {
+            dao.delete(maSach);
+            MsgBox.alert(this, "Xóa sách thành công!");
+            fillToTable(); // Cập nhật lại bảng
+        } catch (Exception e) {
+            e.printStackTrace();
+            MsgBox.alert(this, "Lỗi khi xóa sách!");
+        }
     }
 
-    // Gọi phương thức delete từ lớp SachDAO
-    try {
-        dao.delete(maSach);
-        MsgBox.alert(this, "Xóa sách thành công!");
-        fillToTable(); // Cập nhật lại bảng
-    } catch (Exception e) {
-        e.printStackTrace();
-        MsgBox.alert(this, "Lỗi khi xóa sách!");
-    }
-}
-    
     private void fillToTableWithSearchResults(List<Sach> list) {
-    DefaultTableModel model = (DefaultTableModel) banghienthisach2.getModel();
-    model.setRowCount(0); // Xóa hết các dòng trong bảng hiện tại
-    
-    for (Sach sach : list) {
-        Object[] row = {
-            sach.getMaSach(),
-            sach.getTenSach(),
-            sach.getLanTaiBan(),
-            sach.getNamXB(),
-            sach.getTenTG(),
-            sach.getNhaXB(),
-            sach.getSoLuong(),
-            sach.getHinh(),
-            sach.getGiaSach(),
-            sach.getLoaiSach()
-        };
-        model.addRow(row); // Thêm một dòng vào bảng với dữ liệu của sách sach
-    }
-}
+        DefaultTableModel model = (DefaultTableModel) banghienthisach2.getModel();
+        model.setRowCount(0); // Xóa hết các dòng trong bảng hiện tại
 
-    
+        for (Sach sach : list) {
+            Object[] row = {
+                sach.getMaSach(),
+                sach.getTenSach(),
+                sach.getLanTaiBan(),
+                sach.getNamXB(),
+                sach.getTenTG(),
+                sach.getNhaXB(),
+                sach.getSoLuong(),
+                sach.getHinh(),
+                sach.getGiaSach(),
+                sach.getLoaiSach()
+            };
+            model.addRow(row); // Thêm một dòng vào bảng với dữ liệu của sách sach
+        }
+    }
+
     private void search() {
-    String keyword = txtseach.getText().trim();
+        String keyword = txtseach.getText().trim();
 
-    if (keyword.isEmpty()) {
-        MsgBox.alert(this, "Vui lòng nhập từ khóa để tìm kiếm!");
-        return;
+        if (keyword.isEmpty()) {
+            MsgBox.alert(this, "Vui lòng nhập từ khóa để tìm kiếm!");
+            return;
+        }
+
+        try {
+            List<Sach> list = dao.searchByKeyword(keyword);
+            fillToTableWithSearchResults(list); // Cập nhật lại bảng với danh sách kết quả tìm kiếm
+        } catch (Exception e) {
+            e.printStackTrace();
+            MsgBox.alert(this, "Lỗi khi tìm kiếm sách!");
+        }
     }
 
-    try {
-        List<Sach> list = dao.searchByKeyword(keyword);
-        fillToTableWithSearchResults(list); // Cập nhật lại bảng với danh sách kết quả tìm kiếm
-    } catch (Exception e) {
-        e.printStackTrace();
-        MsgBox.alert(this, "Lỗi khi tìm kiếm sách!");
-    }
-}
+    public static void exportSachToExcel(String filePath) {
+        SachDAO sachdao = new SachDAO();
+        try {
+            List<Sach> listSach = sachdao.selectAll();
 
-    
+            try (XSSFWorkbook workbook = new XSSFWorkbook()) {
+                XSSFSheet sheet = workbook.createSheet("Danh sách Sách");
+
+                // Đặt độ rộng cột
+                int[] columnWidths = {3000, 6000, 4000, 3000, 6000, 6000, 3000, 6000, 4000, 6000};
+                for (int i = 0; i < columnWidths.length; i++) {
+                    sheet.setColumnWidth(i, columnWidths[i]);
+                }
+
+                // Tạo header
+                Row header = sheet.createRow(0);
+                CellStyle headerStyle = createHeaderStyle(workbook);
+
+                // Tạo các ô header
+                String[] headers = {"Mã Sách", "Tên Sách", "Lần Tái Bản", "Năm XB", "Tên TG", "Nhà XB", "Số Lượng", "Hình", "Giá Sách", "Loại Sách"};
+                for (int i = 0; i < headers.length; i++) {
+                    Cell headerCell = header.createCell(i);
+                    headerCell.setCellValue(headers[i]);
+                    headerCell.setCellStyle(headerStyle);
+                }
+
+                // Tạo style cho nội dung
+                CellStyle contentStyle = createContentStyle(workbook);
+
+                // Ghi dữ liệu
+                int rowIndex = 1;
+                for (Sach sach : listSach) {
+                    Row row = sheet.createRow(rowIndex++);
+
+                    createCell(row, 0, sach.getMaSach(), contentStyle);
+                    createCell(row, 1, sach.getTenSach(), contentStyle);
+                    createCell(row, 2, sach.getLanTaiBan(), contentStyle);
+                    createCell(row, 3, sach.getNamXB(), contentStyle);
+                    createCell(row, 4, sach.getTenTG(), contentStyle);
+                    createCell(row, 5, sach.getNhaXB(), contentStyle);
+                    createCell(row, 6, sach.getSoLuong(), contentStyle);
+                    createCell(row, 7, sach.getHinh(), contentStyle);
+                    createCell(row, 8, sach.getGiaSach(), contentStyle);
+                    createCell(row, 9, sach.getLoaiSach(), contentStyle);
+                }
+
+                // Ghi workbook ra file
+                try (FileOutputStream outputStream = new FileOutputStream(filePath)) {
+                    workbook.write(outputStream);
+                }
+            }
+
+            MsgBox.alert(null, "File excel đã được tạo thành công");
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+            MsgBox.alert(null, "Có lỗi khi xuất file");
+        }
+    }
+
+    private static CellStyle createHeaderStyle(XSSFWorkbook workbook) {
+        CellStyle headerStyle = workbook.createCellStyle();
+        headerStyle.setFillForegroundColor(IndexedColors.LIGHT_BLUE.getIndex());
+        headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+
+        XSSFFont font = workbook.createFont();
+        font.setFontName("Arial");
+        font.setFontHeightInPoints((short) 13);
+        font.setBold(true);
+        headerStyle.setFont(font);
+
+        return headerStyle;
+    }
+
+    private static CellStyle createContentStyle(XSSFWorkbook workbook) {
+        CellStyle style = workbook.createCellStyle();
+        style.setWrapText(true);
+        return style;
+    }
+
+    private static void createCell(Row row, int columnIndex, Object value, CellStyle style) {
+        Cell cell = row.createCell(columnIndex);
+        if (value instanceof String) {
+            cell.setCellValue((String) value);
+        } else if (value instanceof Integer) {
+            cell.setCellValue((Integer) value);
+        } else if (value instanceof Double) {
+            cell.setCellValue((Double) value);
+        } else if (value != null) {
+            cell.setCellValue(value.toString());
+        }
+        cell.setCellStyle(style);
+    }
 
 }

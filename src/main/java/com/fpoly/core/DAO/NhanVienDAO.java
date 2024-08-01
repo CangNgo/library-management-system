@@ -39,13 +39,13 @@ public class NhanVienDAO extends AbstractDAO<NhanVien, String> {
 
     @Override
     public List<NhanVien> selectAll() throws SQLException {
-        String sql = "SELECT * FROM NhanVien";
+        String sql = "SELECT * FROM V_NHANVIEN";
         return selectsql(sql);
     }
 
     @Override
     public NhanVien selectById(String key) {
-        String sql = "SELECT * FROM NhanVien WHERE MaNV=?";
+        String sql = "SELECT * FROM V_NHANVIEN WHERE Ma=?";
         List<NhanVien> list = null;
         try {
             list = selectsql(sql, key);
@@ -61,10 +61,12 @@ public class NhanVienDAO extends AbstractDAO<NhanVien, String> {
         try (ResultSet rs = JDBCHelper.query(sql, args)) {
             while (rs.next()) {
                 NhanVien entity = new NhanVien();
-                entity.setMaNV(rs.getString("MaNV"));
-                entity.setMatKhau(rs.getString("MatKhau"));
-                entity.setHoTen(rs.getString("HoTen"));
-                entity.setVaiTro(rs.getString("VaiTro"));
+                entity.setMaNV(rs.getString("Ma"));
+                entity.setMatKhau(rs.getString("MK"));
+                entity.setHoTen(rs.getString("HO_TEN"));
+                entity.setVaiTro(rs.getString("VAITRO"));
+                entity.setEmail(rs.getString("EMAIL"));
+                entity.setDiaChi(rs.getString("DIA_CHI"));
                 list.add(entity);
             }
         } catch (SQLException ex) {
