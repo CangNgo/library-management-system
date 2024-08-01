@@ -3,12 +3,18 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 package com.fpoly.core.forms;
+import com.fpoly.core.DAO.ThongKeDAO;
+import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author WELCOME
  */
 public class ThongKe extends javax.swing.JDialog {
+    
+    private ThongKeDAO thongKeDAO = new ThongKeDAO();
 
     /**
      * Creates new form ThongKe
@@ -145,7 +151,20 @@ public class ThongKe extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+      
+    try {
+        int tongSoSach = thongKeDAO.getTongSoSach();
+        int tongSoDocGia = thongKeDAO.getTongSoDocGia();
+        int soSachDangMuon = thongKeDAO.getSoSachDangMuon();
+
+        txttongsosach.setText(String.valueOf(tongSoSach));
+        txtdocgia.setText(String.valueOf(tongSoDocGia));
+        txtsosachdamuon.setText(String.valueOf(soSachDangMuon));
+    } catch (SQLException ex) {
+        Logger.getLogger(ThongKe.class.getName()).log(Level.SEVERE, null, ex);
+    }
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

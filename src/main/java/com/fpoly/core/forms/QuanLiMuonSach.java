@@ -6,6 +6,8 @@ package com.fpoly.core.forms;
 import com.fpoly.core.DAO.PhieuMuonDAO;
 import com.fpoly.core.utils.MsgBox;
 import com.fpoly.core.models.PhieuMuon;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
@@ -20,11 +22,15 @@ public class QuanLiMuonSach extends javax.swing.JDialog {
 
     PhieuMuonDAO dao = new PhieuMuonDAO();
     int row =0;
+    
+    
+    
     public QuanLiMuonSach(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
         fillToTable();
+        
     }
 
     /**
@@ -54,9 +60,9 @@ public class QuanLiMuonSach extends javax.swing.JDialog {
         txtseach = new javax.swing.JTextField();
         btnseach = new javax.swing.JButton();
         jLabel37 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        btnXuatPhieuMuon = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        btnXuatPT = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         txtTinhTrang = new javax.swing.JTextField();
@@ -172,19 +178,19 @@ public class QuanLiMuonSach extends javax.swing.JDialog {
 
         jLabel37.setText("Tìm Mã DG");
 
-        jButton1.setText("Xuất phiếu mượn");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnXuatPhieuMuon.setText("Xuất phiếu mượn");
+        btnXuatPhieuMuon.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnXuatPhieuMuonActionPerformed(evt);
             }
         });
 
         jLabel1.setText("20/03/2023");
 
-        jButton2.setText("Xuất phiếu trả");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnXuatPT.setText("Xuất phiếu trả");
+        btnXuatPT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnXuatPTActionPerformed(evt);
             }
         });
 
@@ -278,12 +284,12 @@ public class QuanLiMuonSach extends javax.swing.JDialog {
                         .addContainerGap())
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addGap(352, 352, 352)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnXuatPT, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(26, 26, 26)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jButton1)
+                            .addComponent(btnXuatPhieuMuon)
                             .addComponent(nutxoakhachmuon, javax.swing.GroupLayout.PREFERRED_SIZE, 121, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addContainerGap(22, Short.MAX_VALUE))))
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -336,8 +342,8 @@ public class QuanLiMuonSach extends javax.swing.JDialog {
                         .addComponent(nutxoakhachmuon)
                         .addGap(59, 59, 59)
                         .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton2)
-                            .addComponent(jButton1))))
+                            .addComponent(btnXuatPT)
+                            .addComponent(btnXuatPhieuMuon))))
                 .addGap(30, 30, 30)
                 .addComponent(jScrollPane5, javax.swing.GroupLayout.DEFAULT_SIZE, 227, Short.MAX_VALUE)
                 .addContainerGap())
@@ -383,9 +389,12 @@ public class QuanLiMuonSach extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNgayHenTraActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnXuatPhieuMuonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXuatPhieuMuonActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        exportBorrowReceipt();
+        
+        
+    }//GEN-LAST:event_btnXuatPhieuMuonActionPerformed
 
     private void txtTinhTrangActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTinhTrangActionPerformed
         // TODO add your handling code here:
@@ -403,9 +412,10 @@ public class QuanLiMuonSach extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtNgayMuonActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnXuatPTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnXuatPTActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton2ActionPerformed
+        exportReturnReceipt();
+    }//GEN-LAST:event_btnXuatPTActionPerformed
 
     private void nutxoakhachmuonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_nutxoakhachmuonActionPerformed
         delete();
@@ -461,9 +471,9 @@ public class QuanLiMuonSach extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTable banghienthiphieumuon;
+    private javax.swing.JButton btnXuatPT;
+    private javax.swing.JButton btnXuatPhieuMuon;
     private javax.swing.JButton btnseach;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -612,7 +622,6 @@ public class QuanLiMuonSach extends javax.swing.JDialog {
         MsgBox.alert(this, "Lỗi khi sửa thông tin phiếu mượn!");
     }
 }
-
     private void delete() {
     String maPM = txtMaPM.getText();
     // Kiểm tra xem mã phiếu mượn có bị bỏ trống hay không
@@ -620,11 +629,9 @@ public class QuanLiMuonSach extends javax.swing.JDialog {
         MsgBox.alert(this, "Vui lòng nhập mã phiếu mượn để xóa!");
     }
     }
-    
     private void fillToTableWithSearchResults(List<PhieuMuon> list) {
     DefaultTableModel model = (DefaultTableModel) banghienthiphieumuon.getModel();
     model.setRowCount(0); // Xóa hết các dòng trong bảng hiện tại
-    
     for (PhieuMuon pm : list) {
         Object[] row = {
             pm.getMaPM(),
@@ -637,18 +644,14 @@ public class QuanLiMuonSach extends javax.swing.JDialog {
         };
         model.addRow(row); // Thêm một dòng vào bảng với dữ liệu của phiếu mượn pm
     }
-}
-
-    
+} 
     private void search() {
     String keyword = txtseach.getText().trim();
-
     // Kiểm tra xem từ khóa có bị bỏ trống hay không
     if (keyword.isEmpty()) {
         MsgBox.alert(this, "Vui lòng nhập từ khóa để tìm kiếm!");
         return;
     }
-
     // Gọi phương thức tìm kiếm từ lớp PhieuMuonDAO
     try {
         List<PhieuMuon> list = dao.searchByKeyword(keyword);
@@ -658,6 +661,78 @@ public class QuanLiMuonSach extends javax.swing.JDialog {
         MsgBox.alert(this, "Lỗi khi tìm kiếm phiếu mượn!");
     }
 }
-
     
+    
+   private void exportBorrowReceipt() {
+    String maPM = txtMaPM.getText();
+    String ngayMuon = txtNgayMuon.getText();
+    String ngayHenTra = txtNgayHenTra.getText();
+    String tinhTrang = txtTinhTrang.getText();
+    String thanhToan = txtThanhToan.getText();
+    String maDG = txtMaDG.getText();
+    String maNV = txtMaNV.getText();
+
+    // Kiểm tra xem đã nhập đầy đủ thông tin chưa
+    if (maPM.isEmpty() || ngayMuon.isEmpty() || ngayHenTra.isEmpty() || maDG.isEmpty() || maNV.isEmpty()) {
+        MsgBox.alert(this, "Vui lòng điền đầy đủ thông tin!");
+        return;
+    }
+
+    // Tạo nội dung cho phiếu mượn
+    StringBuilder receipt = new StringBuilder();
+    receipt.append("\t\t\t=== PHIẾU MƯỢN ===\n\n");
+    receipt.append(String.format("Mã phiếu mượn: %s\n", maPM));
+    receipt.append(String.format("Ngày mượn: %s\n", ngayMuon));
+    receipt.append(String.format("Ngày hẹn trả: %s\n", ngayHenTra));
+    receipt.append(String.format("Tình trạng: %s\n", tinhTrang));
+    receipt.append(String.format("Thanh toán: %s\n", thanhToan));
+    receipt.append(String.format("Mã đọc giả: %s\n", maDG));
+    receipt.append(String.format("Mã nhân viên: %s\n", maNV));
+    receipt.append("\n---------------------XIN CẢM ƠN QUÝ KHÁCH!------------------");
+
+    // Xuất phiếu mượn ra file
+    try {
+        FileWriter writer = new FileWriter("PhieuMuon_" + maPM + ".txt");
+        writer.write(receipt.toString());
+        writer.close();
+        MsgBox.alert(this, "Xuất phiếu mượn thành công!");
+    } catch (IOException e) {
+        e.printStackTrace();
+        MsgBox.alert(this, "Lỗi khi xuất phiếu mượn!");
+    }
+}
+
+private void exportReturnReceipt() {
+    String maPM = txtMaPM.getText();
+    String ngayTra = txtNgayHenTra.getText(); // Giả sử bạn có ngày trả
+    String maDG = txtMaDG.getText();
+    String maNV = txtMaNV.getText();
+
+    // Kiểm tra xem đã nhập đầy đủ thông tin chưa
+    if (maPM.isEmpty() || ngayTra.isEmpty() || maDG.isEmpty() || maNV.isEmpty()) {
+        MsgBox.alert(this, "Vui lòng điền đầy đủ thông tin!");
+        return;
+    }
+
+    // Tạo nội dung cho phiếu trả
+    StringBuilder receipt = new StringBuilder();
+    receipt.append("\t\t\t=== PHIẾU TRẢ ===\n\n");
+    receipt.append(String.format("Mã phiếu mượn: %s\n", maPM));
+    receipt.append(String.format("Ngày trả: %s\n", ngayTra));
+    receipt.append(String.format("Mã đọc giả: %s\n", maDG));
+    receipt.append(String.format("Mã nhân viên: %s\n", maNV));
+    receipt.append("\n---------------------XIN CẢM ƠN QUÝ KHÁCH!------------------");
+
+    // Xuất phiếu trả ra file
+    try {
+        FileWriter writer = new FileWriter("PhieuTra_" + maPM + ".txt");
+        writer.write(receipt.toString());
+        writer.close();
+        MsgBox.alert(this, "Xuất phiếu trả thành công!");
+    } catch (IOException e) {
+        e.printStackTrace();
+        MsgBox.alert(this, "Lỗi khi xuất phiếu trả!");
+    }
+}
+
 }

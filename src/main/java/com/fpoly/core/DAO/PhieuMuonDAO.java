@@ -2,10 +2,10 @@ package com.fpoly.core.DAO;
 
 import com.fpoly.core.models.PhieuMuon;
 import com.fpoly.core.utils.JDBCHelper;
+import java.sql.CallableStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -59,7 +59,7 @@ public class PhieuMuonDAO extends AbstractDAO<PhieuMuon, String> {
         } catch (SQLException ex) {
             Logger.getLogger(PhieuMuonDAO.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return list.size() > 0 ? list.get(0) : null;
+        return list != null && !list.isEmpty() ? list.get(0) : null;
     }
 
     @Override
@@ -83,9 +83,23 @@ public class PhieuMuonDAO extends AbstractDAO<PhieuMuon, String> {
         }
         return list;
     }
-    public List<PhieuMuon> searchByKeyword(String keyword) throws SQLException {
-    String sql = "SELECT * FROM PhieuMuon WHERE MaPM LIKE ? OR TinhTrang LIKE ? OR MaDG LIKE ? OR MaNV LIKE ?";
-    return selectsql(sql, "%" + keyword + "%", "%" + keyword + "%", "%" + keyword + "%", "%" + keyword + "%");
-}
 
+    public List<PhieuMuon> searchByKeyword(String keyword) throws SQLException {
+        String sql = "SELECT * FROM PhieuMuon WHERE MaPM LIKE ? OR TinhTrang LIKE ? OR MaDG LIKE ? OR MaNV LIKE ?";
+        return selectsql(sql, "%" + keyword + "%", "%" + keyword + "%", "%" + keyword + "%", "%" + keyword + "%");
+    }
+
+    public void xuatPhieuMuon(String maPM) throws SQLException {
+        String sql = "{call XuatPhieuMuon(?)}";
+        try (CallableStatement stmt = (CallableStatement) JDBCHelper.getstmt(sql, maPM)) {
+            stmt.execute();
+        }
+    }
+
+    public void xuatPhieuTra(String maPM) throws SQLException {
+        String sql = "{call XuatPhieuTra(?)}";
+        try (CallableStatement stmt = (CallableStatement) JDBCHelper.getstmt(sql, maPM)) {
+            stmt.execute();
+        }
+    }
 }
