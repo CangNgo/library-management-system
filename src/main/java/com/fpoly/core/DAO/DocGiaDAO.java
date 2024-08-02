@@ -14,22 +14,22 @@ public class DocGiaDAO extends AbstractDAO<DocGia, String> {
     @Override
     public void insert(DocGia entity) {
         String sql = "INSERT INTO DocGia (MaDG, TenDG, NgaySinh, DiaChi, SDT) VALUES (?, ?, ?, ?, ?)";
-        JDBCHelper.update(sql, 
-                entity.getMaDG(), 
-                entity.getTenDG(), 
-                entity.getNgaySinh(), 
-                entity.getDiaChi(), 
+        JDBCHelper.update(sql,
+                entity.getMaDG(),
+                entity.getTenDG(),
+                entity.getNgaySinh(),
+                entity.getDiaChi(),
                 entity.getSDT());
     }
 
     @Override
     public void update(DocGia entity) {
         String sql = "UPDATE DocGia SET TenDG=?, NgaySinh=?, DiaChi=?, SDT=? WHERE MaDG=?";
-        JDBCHelper.update(sql, 
-                entity.getTenDG(), 
-                entity.getNgaySinh(), 
-                entity.getDiaChi(), 
-                entity.getSDT(), 
+        JDBCHelper.update(sql,
+                entity.getTenDG(),
+                entity.getNgaySinh(),
+                entity.getDiaChi(),
+                entity.getSDT(),
                 entity.getMaDG());
     }
 
@@ -76,7 +76,8 @@ public class DocGiaDAO extends AbstractDAO<DocGia, String> {
         }
         return list;
     }
-    public DocGia loginDG( Object... args) throws SQLException {
+
+    public DocGia loginDG(Object... args) throws SQLException {
         String sql = "select madg, taikhoan, matkhau from docgia where taikhoan = ?";
         DocGia docgia = null;
         try (ResultSet rs = JDBCHelper.query(sql, args)) {
@@ -93,9 +94,17 @@ public class DocGiaDAO extends AbstractDAO<DocGia, String> {
         }
         return null;
     }
+
+    public void updatePassword(DocGia entity) {
+        String sql = "UPDATE DocGia SET matkhau = ? WHERE MaDG=?";
+        JDBCHelper.update(sql,
+                entity.getMatkhau(),
+                entity.getMaDG());
+    }
+
     public List<DocGia> searchByKeyword(String keyword) throws SQLException {
-    String sql = "SELECT * FROM DocGia WHERE MaDG LIKE ?";
-    return selectsql(sql, "%" + keyword + "%");
-}
+        String sql = "SELECT * FROM DocGia WHERE MaDG LIKE ?";
+        return selectsql(sql, "%" + keyword + "%");
+    }
 
 }

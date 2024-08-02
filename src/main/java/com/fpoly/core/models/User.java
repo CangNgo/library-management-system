@@ -12,17 +12,37 @@ public class User {
 
     private String username;
     private String vaitro;
+    private String password;
     private boolean manager ;
-
-    public User(String username, String vaitro, boolean manager) {
+    private String id; 
+    public User(String username, String vaitro, String password) {
         this.username = username;
         this.vaitro = vaitro;
-        this.manager = manager;
+        this.password = password;
     }
 
-    public User(String username, String vaitro) {
+    public User(String username, String vaitro, String password, boolean manager,String id) {
         this.username = username;
         this.vaitro = vaitro;
+        this.password = password;
+        this.manager = manager;
+        this.id = id; 
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public User() {

@@ -98,5 +98,12 @@ public class NhanVienDAO extends AbstractDAO<NhanVien, String> {
         }
         return null;
     }
+    
+        public void updatePassword(NhanVien entity) {
+        String sql = "UPDATE NhanVien SET MatKhau=? WHERE MaNV=?";
+        JDBCHelper.update(sql,
+                entity.getMatKhau(),
+                entity.getMaNV());
+    }
 
 }

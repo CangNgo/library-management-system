@@ -11,6 +11,7 @@ import com.fpoly.core.models.DocGia;
 import com.fpoly.core.models.NhanVien;
 import com.fpoly.core.models.User;
 import com.fpoly.core.utils.MsgBox;
+import java.applet.AudioClip;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -174,6 +175,11 @@ public class DangNhapJDialog extends javax.swing.JDialog {
         } else {
             try {
                 Login(username, password);
+                System.out.println(Auth.user.getId());
+                System.out.println(Auth.user.getUsername());
+                System.out.println(Auth.user.getPassword());
+                System.out.println(Auth.user.getVaitro());
+                System.out.println(Auth.user.getManager());
             } catch (SQLException ex) {
                 Logger.getLogger(DangNhapJDialog.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -251,9 +257,11 @@ public class DangNhapJDialog extends javax.swing.JDialog {
             DocGia docgia = dgdao.loginDG(username);
             if (docgia != null) {
                 if (docgia.getTaikhoan().equals(username) && docgia.getMatkhau().equals(password)) {
-                    User user = new User();
+                    Auth.user = new User(docgia.getTaikhoan(), "Đọc giả" , docgia.getMatkhau(), false, docgia.getMaDG());
                     MsgBox.alert(this, "Đăng nhập thành công");
                     new QuanLiThuVienJFrame().setVisible(true);
+                    
+                    System.out.println(Auth.user.getVaitro() );
                     this.dispose();
                 } else {
                     MsgBox.alert(this, password + "   " + docgia.getMatkhau());
@@ -267,10 +275,11 @@ public class DangNhapJDialog extends javax.swing.JDialog {
             NhanVien nhanvien = nvdao.loginNV(username);
             if (nhanvien != null) {
                 if (nhanvien.getTaiKhoan().equals(username) && nhanvien.getMatKhau().equals(password)) {
-                    User user = new User(nhanvien.getTaiKhoan(), nhanvien.getMaNV(), nhanvien.getVaiTro().equalsIgnoreCase("Nhân viên"));
+                    User user = new User(nhanvien.getTaiKhoan(), "Nhân viên", nhanvien.getMatKhau(), nhanvien.getVaiTro().equalsIgnoreCase("admin"), nhanvien.getMaNV());
                     Auth.user = user;
                     MsgBox.alert(this, "Đăng nhập thành công");
                     new QuanLiThuVienJFrame().setVisible(true);
+                    System.out.println(Auth.user.getVaitro()+ "    " + Auth.user.getManager());
                     this.dispose();
                 } else {
                     MsgBox.alert(this, password + "   " + nhanvien.getMatKhau());
